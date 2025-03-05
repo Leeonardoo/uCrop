@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -101,8 +100,7 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.yalantis.ucrop.sample.R.layout.activity_sample);
-        applyWindowInsets();
-        enableEdgeToEdge();
+        applyWindowInsets(findViewById(R.id.root_sample));
         setupUI();
     }
 
@@ -186,92 +184,6 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
             }
         }
     };
-
-    private abstract class OcCropButtonClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            if (mRadioGroupChooseDestination.getCheckedRadioButtonId() == R.id.radio_choose_destination && destinationUri == null) {
-                Toast.makeText(SampleActivity.this,
-                        "Please, select a destination file or set Tmp Files destination option",
-                        Toast.LENGTH_LONG).show();
-            } else {
-                onValidatedClick(v);
-            }
-        }
-
-        abstract void onValidatedClick(View v);
-    }
-
-    private class ButtonFileDestinationClickListener implements View.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-            String destinationFileName = SAMPLE_CROPPED_IMAGE_NAME;
-            String mimeType = "image/jpeg";
-            switch (mRadioGroupCompressionSettings.getCheckedRadioButtonId()) {
-                case R.id.radio_png:
-                    mimeType = "image/png";
-                    destinationFileName += ".png";
-                    break;
-                case R.id.radio_jpeg:
-                    mimeType = "image/jpeg";
-                    destinationFileName += ".jpg";
-                    break;
-            }
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-
-                if (mCheckBoxUseDocumentProvider.isChecked()) {
-
-                    Intent createDocumentIntent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-                    createDocumentIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                    createDocumentIntent.setType(mimeType);
-                    createDocumentIntent.putExtra(Intent.EXTRA_TITLE, destinationFileName);
-
-                    if (createDocumentIntent.resolveActivity(getPackageManager()) != null) {
-
-                        startActivityForResult(createDocumentIntent, DESTINATION_IMAGE_FILE_REQUEST_CODE);
-                    } else {
-                        Toast.makeText(SampleActivity.this,
-                                R.string.no_file_chooser_error,
-                                Toast.LENGTH_LONG).show();
-                    }
-                } else if (ActivityCompat.checkSelfPermission(SampleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            getString(R.string.permission_write_storage_rationale),
-                            REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
-                } else {
-                    showChooseFileDestinationAlertDialog();
-                }
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN
-                    && ActivityCompat.checkSelfPermission(SampleActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        getString(R.string.permission_write_storage_rationale),
-                        REQUEST_STORAGE_WRITE_ACCESS_PERMISSION);
-            } else {
-                showChooseFileDestinationAlertDialog();
-            }
-        }
-    }
-
-    private void applyWindowInsets() {
-        View root = findViewById(R.id.root);
-        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-
-            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-            layoutParams.leftMargin = insets.left;
-            layoutParams.bottomMargin = insets.bottom;
-            layoutParams.rightMargin = insets.right;
-            layoutParams.topMargin = insets.top;
-            view.setLayoutParams(layoutParams);
-
-            return WindowInsetsCompat.CONSUMED;
-        });
-    }
 
     @SuppressWarnings("ConstantConditions")
     private void setupUI() {
