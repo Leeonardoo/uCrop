@@ -33,6 +33,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -42,9 +44,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.yalantis.ucrop.UCrop;
 import com.yalantis.ucrop.UCropActivity;
@@ -99,6 +98,11 @@ public class SampleActivity extends BaseActivity implements UCropFragmentCallbac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(
+                this,
+                SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+                SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        );
         super.onCreate(savedInstanceState);
         setContentView(com.yalantis.ucrop.sample.R.layout.activity_sample);
         applyWindowInsets(findViewById(R.id.root_sample));

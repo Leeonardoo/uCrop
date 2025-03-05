@@ -1,5 +1,8 @@
 package com.yalantis.ucrop.sample;
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
@@ -22,6 +25,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
+import androidx.activity.SystemBarStyle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -42,9 +47,6 @@ import java.nio.channels.FileChannel;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
-import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
-
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).
  */
@@ -62,6 +64,11 @@ public class ResultActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        EdgeToEdge.enable(
+                this,
+                SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+                SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
+        );
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         applyWindowInsets(findViewById(R.id.root_result));
@@ -169,7 +176,7 @@ public class ResultActivity extends BaseActivity {
                     Toast.makeText(ResultActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, imageUri.toString(), e);
                 }
-            } else if (BitmapLoadUtils.hasContentScheme(imageUri)){
+            } else if (BitmapLoadUtils.hasContentScheme(imageUri)) {
                 Toast.makeText(ResultActivity.this, getString(R.string.toast_already_saved), Toast.LENGTH_SHORT).show();
                 finish();
             } else {
