@@ -64,14 +64,12 @@ public class ResultActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        EdgeToEdge.enable(
-                this,
+        EdgeToEdge.enable(this,
                 SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
                 SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
         );
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-        applyWindowInsets(findViewById(R.id.root_result));
         Uri uri = getIntent().getData();
         int width = 0;
         int height = 0;
