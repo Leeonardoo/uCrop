@@ -5,10 +5,10 @@ android {
     compileSdk 35
     namespace = "com.yalantis.ucrop"
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 35
-        versionCode 27
-        versionName "2.2.9-native"
+        versionCode 30
+        versionName "2.2.11-native"
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -22,8 +22,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     lintOptions {
         abortOnError false
@@ -43,5 +43,5 @@ dependencies {
     implementation "androidx.exifinterface:exifinterface:${androidx_exifinterface_version}"
     implementation "androidx.transition:transition:${androidx_transition_version}"
     // OkHttp3 versions above 3.12.x don't support pre-Lollipop Android versions (API 21)
-    implementation "com.squareup.okhttp3:okhttp:3.12.13"
+    implementation "com.squareup.okhttp3:okhttp:4.12.0"
 }
